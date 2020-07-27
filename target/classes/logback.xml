@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <logger name="jdbc.sqlonly" level="DEBUG"/>
+    <logger name="jdbc.sqltiming" level="INFO"/>
+    <logger name="jdbc.audit" level="WARN"/>
+    <logger name="jdbc.resultset" level="ERROR"/>
+    <logger name="jdbc.resultsettable" level="ERROR"/>
+    <logger name="jdbc.connection" level="INFO"/>
+    <logger name="jdbc" level="OFF"/>
+
+    <!-- 콘솔로 로그를 남김 --> 
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+       <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level [%logger.%method.%line]-%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 파일로 로그를 남김 -->
+    <appender name="LOGFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    	<file>c:/LocalData/download/logback.log</file>
+    	<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+        	<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n</Pattern>
+        </encoder>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+             <MaxFileSize>10MB</MaxFileSize>
+        </triggeringPolicy>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <FileNamePattern>c:/LocalData/download/logback.%i.log.zip</FileNamePattern>
+             <MinIndex>1</MinIndex>
+             <MaxIndex>10</MaxIndex>
+        </rollingPolicy>
+    	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+    		<fileNamePattern>logback.%d{yyyy-MM-dd}.log</fileNamePattern>
+    		<maxHistory>30</maxHistory>
+    	</rollingPolicy>
+    	<encoder>
+    		<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-4level [%logger.%method.%line]-%msg%n</pattern>
+    	</encoder>
+    </appender>
+
+    <logger name="com.example.board" level="INFO"   additivity="false">
+    	<appender-ref ref="CONSOLE" />
+    </logger>
+    <!-- root는 글로벌 로거를 의미하며, 위의 logger에 해당하지 않으면 root 로거가 실행된다. -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.board.service.MemberDAO">
+	<select id="passChk" resultType="String">
+		select name from java.member where userid=#{userid} and passwd=#{passwd}
+	</select>
+	<delete id="delete">
+		delete from java.member where userid=#{userid}
+	</delete>
+	<insert id="insert">
+		insert into java.member (userid,passwd,name,email,join_date) 
+		value 
+		(#{userid},#{passwd},#{name},#{email},sysdate())
+	</insert>
+	<update id="update">
+		update java.member set passwd=#{passwd},name=#{name},email=#{email}
+		where userid=#{userid}
+	</update>
+	<select id="detail" resultType="com.example.board.vo.MemberVO">
+		SELECT * 
+		FROM JAVA.MEMBER
+		where userid=#{userid}
+	</select>
+	<select id="list" resultType="com.example.board.vo.MemberVO">
+		SELECT * 
+		FROM JAVA.MEMBER
+	</select>          
+</mapper>
