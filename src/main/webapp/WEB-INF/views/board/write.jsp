@@ -9,6 +9,18 @@
 <script>
 $(function(){
 	$("#btnSave").click(function(){
+		const subject = $("#subject");
+		const content = $("#content");
+		if(subject.val() === "") {
+			alert("Write down subject!");
+			subject.focus();
+			return;
+		}
+		if(content.val() === "") {
+			alert("Write down content!");
+			content.focus();
+			return;
+		}
 		document.form1.submit();
 	});
 });
@@ -21,15 +33,15 @@ $(function(){
 <table border="1" style="width: 700px">
 	<tr>
 		<td width="20%">writer</td>
-		<td width="80%"><input type="text" size="10" name="writer" value="${sessionScope.userid}"/></td>
+		<td width="80%"><input type="text" size="10" name="writer" value="${sessionScope.userid}" readonly /></td>
 	</tr>
 	<tr>
 		<td width="20%">subject</td>
-		<td width="80%"><input type="text" size="50" name="subject"/></td>
+		<td width="80%"><input type="text" size="50" name="subject" id="subject"/></td>
 	</tr>
 	<tr>
 		<td width="20%">content</td>
-		<td width="80%"><textarea name="content" cols="80" rows="3"></textarea></td>
+		<td width="80%"><textarea name="content" cols="80" rows="3" id="content"></textarea></td>
 	</tr>
 	<tr>
 		<td width="20%">attach file</td>

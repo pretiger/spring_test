@@ -7,76 +7,38 @@
 <title>Insert title here</title>
 <%@ include file="../include/header.jsp" %>
 <script>
-'use strict';
 $(function(){
-	$("#btnSearch").click(function(){
-		location.href = "${path}/board/list.do?curPage=${page.curPage}&searchkey="
-			+$("#searchkey").val()+"&keyword="+$("#keyword").val();
-	})
 	$("#btnWrite").click(function(){
 		location.href = "${path}/board/write.do";
 	});
 });
 function list(page) {
-	location.href = "${path}/board/list.do?curPage="+page+"&searchkey="
-		+$("#searchkey").val()+"&keyword="+$("#keyword").val();
+	location.href = "${path}/board/list.do?curPage="+page;
 }
 </script>
 </head>
 <body>
 <%@ include file="../include/menu.jsp" %>
-<h1>Board</h1>
-<form>
-	<select id="searchkey">
-	<c:choose>
-	<c:when test="${searchkey == 'writer'}">
-		<option value="all">All</option>
-		<option value="writer" selected>Writer</option>
-		<option value="subject">Subject</option>
-		<option value="content">Content</option>
-	</c:when>
-	<c:when test="${searchkey == 'subject'}">
-		<option value="all">All</option>
-		<option value="writer">Writer</option>
-		<option value="subject" selected>Subject</option>
-		<option value="content">Content</option>
-	</c:when>
-	<c:when test="${searchkey == 'content'}">
-		<option value="all">All</option>
-		<option value="writer">Writer</option>
-		<option value="subject">Subject</option>
-		<option value="content" selected>Content</option>
-	</c:when>
-	<c:otherwise>
-		<option value="all" selected>All</option>
-		<option value="writer">Writer</option>
-		<option value="subject">Subject</option>
-		<option value="content">Content</option>
-	</c:otherwise>
-	</c:choose>
-	</select>
-	<input type="text" id="keyword" value="${keyword}"/>
-	<input type="button" id="btnSearch" value="Search" />
-</form>
+<h1>Board List</h1>
 <button id="btnWrite">Writing</button>
-<table border="1" style="width: 700px">
-	<tr>
-		<td>Number</td>
-		<td>Writer</td>
-		<td>Subject</td>
-		<td>Viewcnt</td>
-		<td>Date</td>
-	</tr>
-<c:forEach var="row" items="${list}">
-	<tr>
-		<td>${row.num }</td>
-		<td>${row.writer }</td>
-		<td><a href="${path}/board/detail.do/${row.num}">${row.subject}</a></td>
-		<td>${row.viewcount }</td>
-		<td><fmt:formatDate value="${row.regdate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	</tr>
-</c:forEach>
-</table>
+<table border="1" style="width: 700px">                                                    	
+	<tr>                                                                                   	
+		<td>Num</td>                                                                       	
+		<td>Writer</td>                                                                    	
+		<td>Subject</td>                                                                   	
+		<td>ViewCnt</td>                                                                   	
+		<td>Date</td>                                                                      	
+	</tr>                                                                                  	
+	<c:forEach var="row" items="${list}">                                                  	
+	<tr>                                                                                   	
+		<td>${row.num }</td>                                                               	
+		<td>${row.writer }</td>                                                            	
+		<td>${row.subject }</td>                                                           	
+		<td>${row.viewcount }</td>                                                         	
+		<td><fmt:formatDate value="${row.regdate }" pattern="yyyy-MM-dd HH:mm:ss"/>  </td> 	
+	</tr>                                                                                  	
+	</c:forEach>                                                                           	
+</table>                                                                                   	
 <table style="width: 700px">
 	<tr align="center">
 		<td>

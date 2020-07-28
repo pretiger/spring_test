@@ -45,7 +45,7 @@
 	</beans:bean>
 	<!-- 파일 업로드를 위한 디렉토리 설정 -->
 	<beans:bean id="uploadPath" class="java.lang.String">
-		<beans:constructor-arg value="c:/LocalData/download" />
+		<beans:constructor-arg value="c:/LocalData/download/filedownload" />
 	</beans:bean>
 
 	<!-- 스프링빈을 태그로 등록하지 않고 자동으로 검색(auto scan) -->

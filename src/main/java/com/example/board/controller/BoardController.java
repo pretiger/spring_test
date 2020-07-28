@@ -32,13 +32,18 @@ public class BoardController {
 	public void write() {}
 	
 	@RequestMapping("list.do")
-	public String list(Model model, @RequestParam(defaultValue = "1") int curPage) {
-		int count = boardService.count();
+	public String list(Model model, 
+		@RequestParam(defaultValue = "1") int curPage,
+		@RequestParam(defaultValue = "all") String searchkey,
+		@RequestParam(defaultValue = "") String keyword) {
+		int count = boardService.count(searchkey, keyword);
 		Pager pager = new Pager(count, curPage);
 		int start = pager.getPageStart()-1;
 		int end = Pager.getPageScale();
-		model.addAttribute("list", boardService.list(start, end));
+		model.addAttribute("list", boardService.list(start, end, searchkey, keyword));
 		model.addAttribute("page", pager);
+		model.addAttribute("searchkey", searchkey);
+		model.addAttribute("keyword", keyword);
 		return "/board/list";
 	}
 }

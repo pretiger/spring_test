@@ -7,7 +7,8 @@ import com.example.board.vo.BoardVO;
 
 public interface BoardDAO {
 
+	public void insertAttach(Map<String, Object> map);
 	public void insert(BoardVO dto);
-	public int count();
-	public List<BoardVO> list(Map<String, Integer> map);
+	public int count(Map<String, String> map);
+	public List<BoardVO> list(Map<String, Object> map);
 }

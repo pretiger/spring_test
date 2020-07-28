@@ -3,6 +3,10 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.board.service.BoardDAO">
+	<insert id="insertAttach">
+		insert into java.attach (fullName, bnum, regdate) values
+		(#{fullName}, #{bnum}, NOW())
+	</insert>
 	<insert id="insert">
 		<selectKey keyProperty="num" order="BEFORE" resultType="int">
 			select ifnull(max(num)+1,1) from java.board_spring
@@ -13,11 +17,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 	<select id="count" resultType="int">
 		select count(*) 
-		from java.board_spring
+		from java.board_spring where 
+		<choose>
+		<when test="searchkey == 'all' ">
+			(writer like #{keyword} or subject like #{keyword} or content like #{keyword})
+		</when>
+		<otherwise>
+			${searchkey} like #{keyword}
+		</otherwise>
+		</choose>
 	</select>
 	<select id="list" resultType="com.example.board.vo.BoardVO">
 		select * 
-		from java.board_spring 
+		from java.board_spring where
+		<choose>
+		<when test="searchkey == 'all' ">
+			(writer like #{keyword} or subject like #{keyword} or content like #{keyword})
+		</when>
+		<otherwise>
+			${searchkey} like #{keyword}
+		</otherwise>
+		</choose>
 		order by num desc
 		limit #{start}, #{end}
 	</select>          
