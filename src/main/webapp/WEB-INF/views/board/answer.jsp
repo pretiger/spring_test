@@ -9,15 +9,15 @@
 <script>
 $(function(){
 	$("#btnSave").click(function(){
-		document.form1.action = "${path}/board/insert.do";
-		document.form1.submit();
+		document.form1.action = "${path}/board/insertAnswer.do";
+		document.form1.submit();		
 	});
-});
+})
 </script>
 </head>
 <body>
 <%@ include file="../include/menu.jsp" %>
-<h1>Board Writing</h1>
+<h1>Board Answering</h1>
 <form name="form1" method="post" enctype="multipart/form-data">
 	<table border="1" style="width: 700px;">
 		<tr>
@@ -26,11 +26,11 @@ $(function(){
 		</tr>
 		<tr>
 			<td>Subject</td>
-			<td><input type="text" name="subject" size="80"/></td>
+			<td><input type="text" name="subject" size="80" value="${dto.subject}"/></td>
 		</tr>
 		<tr>
 			<td>Content</td>
-			<td><textarea name="content" id="" cols="80" rows="3"></textarea></td>
+			<td><textarea name="content" id="" cols="80" rows="3">${dto.content}</textarea></td>
 		</tr>
 		<tr>
 			<td>File Attach</td>
@@ -38,6 +38,9 @@ $(function(){
 		</tr>
 		<tr align="center">
 			<td colspan="2">
+				<input type="hidden" name="subgroup" value="${dto.subgroup}" />
+				<input type="hidden" name="substep" value="${dto.substep}" />
+				<input type="hidden" name="sublevel" value="${dto.sublevel}" />
 				<input type="button" id="btnSave" value="Save"/>
 				<input type="button" value="List" onclick="location.href='${path}/board/list.do'" />
 			</td>

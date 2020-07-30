@@ -3,42 +3,86 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.board.service.BoardDAO">
+	<select id="preview" resultType="String">
+		select content from java.board_spring where num = #{num}
+	</select>
+	<insert id="insertComment">
+		<selectKey keyProperty="rnum" order="BEFORE" resultType="int"> 
+			select ifnull(max(rnum)+1, 1) from java.reply
+		</selectKey>
+		insert into java.reply (rnum, bnum, replytext, replyer, regdate) 
+		values (#{rnum},#{bnum},#{replytext},#{replyer},NOW())
+	</insert>
+	<select id="listComment" resultType="com.example.board.vo.ReplyVO">
+		select rnum,bnum,replytext,replyer,name,regdate 
+		from java.reply r, java.member m 
+		where r.bnum = #{bnum} and r.replyer = m.userid  
+	</select>
+	<update id="plusStep">
+		update java.board_spring set substep = substep + 1
+		where subgroup = #{subgroup} and substep >= #{substep}
+	</update>
+	<insert id="insertAnswer">
+		<selectKey keyProperty="num" order="BEFORE" resultType="int">
+			select ifnull(max(num)+1,1) from java.board_spring
+		</selectKey>
+		insert into java.board_spring (num,writer,subject,content,subgroup,substep,sublevel,viewcount,regdate) 
+		values 
+		(#{num},#{writer},#{subject},#{content},#{subgroup},#{substep},#{sublevel},0,NOW())
+	</insert>
+	<update id="plusCount">
+		update java.board_spring set viewcount = viewcount + 1
+		where num = #{num}
+	</update>
+	<delete id="deleteAttach">
+		delete from java.attach where fullName = #{fullName}
+	</delete>
+	<select id="attachList" resultType="String">
+		select fullName from java.attach where bnum = #{bnum}
+	</select>
+	<update id="update">
+		update java.board_spring set subject = #{subject}, content = #{content}
+		where num = #{num}
+	</update>
+	<select id="detail" resultType="com.example.board.vo.BoardVO">
+		select * from java.board_spring where num = #{num}
+	</select>
 	<insert id="insertAttach">
-		insert into java.attach (fullName, bnum, regdate) values
-		(#{fullName}, #{bnum}, NOW())
+		insert into java.attach (fullName, bnum, regdate) 
+		values (#{fullName}, #{bnum}, NOW())
 	</insert>
 	<insert id="insert">
 		<selectKey keyProperty="num" order="BEFORE" resultType="int">
 			select ifnull(max(num)+1,1) from java.board_spring
 		</selectKey>
-		insert into java.board_spring (num, writer, subject, content, subgroup, substep, sublevel, viewcount)
-		values
-		(#{num},#{writer},#{subject},#{content},#{num},0,0,0)
+		insert into java.board_spring (num,writer,subject,content,subgroup,substep,sublevel,viewcount,regdate) 
+		values (#{num},#{writer},#{subject},#{content},#{num},0,0,0,NOW())
 	</insert>
 	<select id="count" resultType="int">
-		select count(*) 
-		from java.board_spring where 
+		select count(*) from java.board_spring
+		where 
 		<choose>
-		<when test="searchkey == 'all' ">
-			(writer like #{keyword} or subject like #{keyword} or content like #{keyword})
-		</when>
-		<otherwise>
-			${searchkey} like #{keyword}
-		</otherwise>
+			<when test="searchkey == 'all'">
+				(writer like #{keyword} or subject like #{keyword} or content like #{keyword})
+			</when>
+			<otherwise>
+				${searchkey} like #{keyword}
+			</otherwise>
 		</choose>
 	</select>
 	<select id="list" resultType="com.example.board.vo.BoardVO">
-		select * 
-		from java.board_spring where
+		select num,writer,name,subject,content,subgroup,substep,sublevel,viewcount,regdate, 
+			(select count(*) from java.reply r where b.num = r.bnum) cnt
+		from java.board_spring b, java.member m 
+		where b.writer = m.userid and 
 		<choose>
-		<when test="searchkey == 'all' ">
-			(writer like #{keyword} or subject like #{keyword} or content like #{keyword})
-		</when>
-		<otherwise>
-			${searchkey} like #{keyword}
-		</otherwise>
+			<when test="searchkey == 'all'">
+				(writer like #{keyword} or subject like #{keyword} or content like #{keyword})
+			</when>
+			<otherwise>
+				${searchkey} like #{keyword}
+			</otherwise>
 		</choose>
-		order by num desc
-		limit #{start}, #{end}
+		order by subgroup desc, substep asc limit #{start}, #{end}
 	</select>          
 </mapper>

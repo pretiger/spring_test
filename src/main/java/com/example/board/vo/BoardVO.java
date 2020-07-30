@@ -14,6 +14,7 @@ public class BoardVO {
     private int num;
     // 작성자 
     private String writer;
+    private String name;
     // 제목 
     private String subject;
     // 내용 
