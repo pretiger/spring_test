@@ -17,6 +17,17 @@ $(function(){
 </head>
 <body>
 <%@ include file="../include/menu.jsp" %>
+<script>
+$(function(){
+	$("#fileList").on("click", "a", function(){
+		$(this).parent("div").remove();
+	});
+});
+function addTag(){
+	str = "<div><a href='javascript:;'>[delete]</a><input type='file' name='files' /></div>";
+	$("#fileList").append(str);
+}
+</script>
 <h1>Board Writing</h1>
 <form name="form1" method="post" enctype="multipart/form-data">
 	<table border="1" style="width: 700px;">
@@ -34,7 +45,10 @@ $(function(){
 		</tr>
 		<tr>
 			<td>File Attach</td>
-			<td><input type="file" name="files" /></td>
+			<td>
+				<span style="color: blue;" onclick="addTag()"><a href="javascript:;">[add]</a></span>
+				<input type="file" name="files" /><div id="fileList"></div>
+			</td>
 		</tr>
 		<tr align="center">
 			<td colspan="2">

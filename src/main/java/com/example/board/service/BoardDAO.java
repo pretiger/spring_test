@@ -8,6 +8,9 @@ import com.example.board.vo.ReplyVO;
 
 public interface BoardDAO {
 
+	public void deleteComment(int bnum);
+	public int countComment(int bnum);
+	public void delete(int num);
 	public String preview(int num);
 	public void insertComment(ReplyVO dto);
 	public List<ReplyVO> listComment(int bnum);

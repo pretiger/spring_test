@@ -42,6 +42,12 @@ public class BoardController {
 	@Autowired
 	BoardService boardService;
 	
+	@RequestMapping("delete.do/{num}")
+	public String delete(@PathVariable int num) {
+		boardService.delete(num);
+		return "redirect:/board/list.do";
+	}
+	
 	@ResponseBody
 	@RequestMapping("preview.do")
 	public String preview(@RequestParam int num) {

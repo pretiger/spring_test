@@ -10,6 +10,14 @@
 $(function(){
 	attachList();
 	listComment();
+	$("#fileList").on("click", "a", function(){
+		$(this).parent("div").remove();
+	});
+	$("#btnDelete").click(function(){
+		if(confirm("Would you delete?")){
+			location.href = "${path}/board/delete.do/${dto.num}";
+		}
+	});
 	$("#btnSave").click(function(){
 		const replytext = $("#comment").val();
 		const replyer = "${sessionScope.userid}";
@@ -71,6 +79,10 @@ function attachList(){
 function originalName(filename){
 	return filename.substr(filename.lastIndexOf("_")+1);	
 }
+function addTag(){
+	str = "<div><a href='javascript:;'>[delete]</a><input type='file' name='files' /></div>";
+	$("#fileList").append(str);
+}
 </script>
 </head>
 <%@ include file="../include/menu.jsp" %>
@@ -93,7 +105,9 @@ function originalName(filename){
 		</tr>
 		<tr>
 			<td>File</td>
-			<td colspan="3"><input type="file" name="files" />
+			<td colspan="3">
+				<span style="color: blue;" onclick="addTag()"><a href="javascript:;">[add]</a></span>
+				<input type="file" name="files" /><div id="fileList"></div>
 				<div id="uploadedFile"></div>	
 			</td>
 		</tr>

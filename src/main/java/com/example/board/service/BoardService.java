@@ -1,5 +1,6 @@
 package com.example.board.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,21 @@ public class BoardService {
 	
 	@Autowired
 	BoardDAO boardDao;
+	
+	@Transactional
+	public void delete(int num) {
+		List<String> fullNames = boardDao.attachList(num); 
+		if(boardDao.countComment(num) > 0) {
+			boardDao.deleteComment(num);
+		}
+		if(fullNames.size() > 0) {
+			for(String fullName : fullNames) {
+				boardDao.deleteAttach(fullName);
+				new File(uploadPath + fullName.replace('/', File.separatorChar)).delete();
+			}
+		}
+		boardDao.delete(num);
+	}
 	
 	public String preview(int num) {
 		return boardDao.preview(num);
