@@ -17,39 +17,7 @@
 	visibility: hidden;
 }
 </style>
-<script>
-$(function(){
-	$("#btnWrite").click(function(){
-		location.href = "${path}/board/write.do";
-	});
-	$("#btnSearch").click(function(){
-		document.form1.action = "${path}/board/list.do?curPage=${page.curPage}";
-		document.form1.submit();
-	});
-});
-function list(page){
-	location.href = "${path}/board/list.do?curPage="+page
-		+"&searchkey="+$("#searchkey").val()+"&keyword="+$("#keyword").val();
-}
-function preview(num){
- 	$.ajax({
-		url: "${path}/board/preview.do?num="+num,
-		success: function(result){
-			$("#previewTag").html(result);
-		}
-	});
-}
-function show(){
-	$("#previewTag").css("visibility", "visible");
-}
-function hide(){
-	$("#previewTag").css("visibility", "hidden");
-}
-document.onmousemove = () => {
-	$("#previewTag").css("marginTop", event.y+"px");
-	$("#previewTag").css("marginLeft", event.x+"px");
-}
-</script>
+
 </head>
 <body>
 <%@ include file="../include/menu.jsp" %>
@@ -147,5 +115,51 @@ document.onmousemove = () => {
 		</td>
 	</tr>
 </table>
+<script>
+/* $(function(){
+ 	$("#btnWrite").click(function(){
+		location.href = "${path}/board/write.do";
+	});
+	$("#btnSearch").click(function(){
+		document.form1.action = "${path}/board/list.do?curPage=${page.curPage}";
+		document.form1.submit();
+	});
+}); */
+document.querySelector("#btnWrite")
+	.addEventListener("click", () => location.href = "${path}/board/write.do");
+document.querySelector("#btnSearch")
+	.addEventListener("click", () => {
+		document.form1.action = "${path}/board/list.do?curPage=${page.curPage}";
+		document.form1.submit();
+	});
+function list(page){
+	location.href = "${path}/board/list.do?curPage="+page
+		/* +"&searchkey="+$("#searchkey").val()+"&keyword="+$("#keyword").val(); */
+	+"&searchkey="+document.querySelector("#searchkey").value
+	+"&keyword="+document.querySelector("#keyword").value;
+}
+function preview(num){
+  	 $.ajax({
+		url: "${path}/board/preview.do?num="+num,
+		success: function(result){
+			$("#previewTag").html(result);
+		}
+	});
+}
+function show(){
+	/* $("#previewTag").css("visibility", "visible"); */
+	document.querySelector("#previewTag").style.visibility="visible";
+}
+function hide(){
+	/* $("#previewTag").css("visibility", "hidden"); */
+	document.querySelector("#previewTag").style.visibility="hidden";
+}
+document.onmousemove = () => {
+	/* $("#previewTag").css("marginTop", event.y+"px");
+	$("#previewTag").css("marginLeft", event.x+"px"); */
+	document.querySelector("#previewTag").style.marginTop=event.y+"px";
+	document.querySelector("#previewTag").style.marginLeft=event.x+"px";
+}
+</script>
 </body>
 </html>
