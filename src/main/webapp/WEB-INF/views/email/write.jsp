@@ -10,12 +10,13 @@
 <body>
 <%@ include file= "../include/menu.jsp" %>
 <h1>이메일 보내기</h1>
-<form method="post" action="${path}/email/send.do">
+<form method="post" enctype="multipart/form-data" action="${path}/email/send.do">
 발신자 이름 : <input name="senderName"><br>
 발신자 이메일 주소: <input name="senderMail"><br> 
 수신자 이메일 주소: <input name="receiveMail"><br>
 제목: <input name="subject"><br>
-내용: <textarea name="message" cols="80" rows="5"></textarea>
+내용: <textarea name="message" cols="80" rows="5"></textarea><br>
+첨부파일: <input type="file" name="files" multiple="multiple">
 <input type="submit" value="전송">
 </form>
 <span style="color: red;">${message}</span>
