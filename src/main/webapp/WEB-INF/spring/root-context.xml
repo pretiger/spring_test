@@ -41,11 +41,11 @@
 	<!-- 트랜잭션 곤련 어노테이션을 자동 인식하는 옵션 -->
 	<tx:annotation-driven />
 	<!-- 이메일 관련 설정 -->
-<!-- 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+ 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
     <property name="host" value="smtp.gmail.com" />
     <property name="port" value="587" />
-    <property name="username" value="@gmail.com" />
-    <property name="password" value="" />
+    <property name="username" value="babacoolpre" />
+    <property name="password" value="pre3159!" />
     <property name="javaMailProperties">
     <props>
 		<prop key="mail.transport.protocol">smtp</prop>    	
@@ -54,6 +54,6 @@
 	    <prop key="mail.debug">true</prop>
     </props>
     </property>
-  	</bean> -->
+  	</bean>
 	
 </beans>

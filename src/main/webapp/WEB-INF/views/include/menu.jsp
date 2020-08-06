@@ -7,6 +7,7 @@
 <a href="${path}/shop/list.do">상품목록</a> |
 <a href="${path}/shop/listCart.do">장바구니</a> |
 <a href="${path}/member/list.do">회원관리</a> |
+<a href="${path}/email/write.do">이메일 발송</a>
 <div align="right">
 <c:choose>
 <c:when test="${sessionScope.userid != null}">
