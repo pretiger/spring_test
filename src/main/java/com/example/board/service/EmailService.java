@@ -1,5 +1,7 @@
 package com.example.board.service;
 
+import java.io.File;
+
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.annotation.Resource;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import com.example.board.utils.UploadFileUtils;
 import com.example.board.vo.EmailVO;
@@ -44,7 +47,7 @@ public class EmailService {
 //			e.printStackTrace();
 //		}
 		
-//		첨부파일이 존재할 경우
+//		첨부파일이 존재할 경우, 존재하지 않을 경우
 		try {
 			MimeMessage msg = mailSender.createMimeMessage();
 			MimeMessageHelper messageHelper = new MimeMessageHelper(msg, true, "UTF-8");
@@ -54,13 +57,14 @@ public class EmailService {
 			messageHelper.setText(dto.getMessage());
 			if(dto.getFiles().getSize() > 0) {
 				String fileName = dto.getFiles().getOriginalFilename();
-				String fullName = UploadFileUtils.uploadFile(uploadPath, fileName, dto.getFiles().getBytes());
-				DataSource dataSource =new FileDataSource(uploadPath + fullName);
-				logger.info("=======File Path============"+uploadPath+fullName);
-				messageHelper.addAttachment(fullName, dataSource);
+				File target=new File(uploadPath, fileName);
+				FileCopyUtils.copy(dto.getFiles().getBytes(), target);
+				messageHelper.addAttachment(fileName, target);
+				mailSender.send(msg);
+				target.delete();
+			} else {
+				mailSender.send(msg);
 			}
-			
-			mailSender.send(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
